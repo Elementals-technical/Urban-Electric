@@ -2,13 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import s from "./PlayerThreeKit.module.scss";
 import load3kit from "../utils/load3kit";
-import axios from "axios";
-
-export const THREEKIT_PARAMS = {
-  threekitUrl: "https://preview.threekit.com/",
-  authToken: "17862278-d8a2-4522-a7c2-53943e097393",
-  assetId: "ed10ae9e-aa26-437a-bb0f-61e09430c89e",
-};
+import { THREEKIT_PARAMS } from "../App";
 
 export const PlayerThreeKit = () => {
   const queryString = window.location.search;

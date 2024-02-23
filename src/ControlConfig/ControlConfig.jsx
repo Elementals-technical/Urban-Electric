@@ -1,4 +1,4 @@
-import { useLocation, redirect } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import s from "./ControlConfig.module.scss";
 
 import { useEffect, useState } from "react";

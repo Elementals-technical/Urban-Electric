@@ -17,6 +17,12 @@ const router = createBrowserRouter([
   },
 ]);
 
+export const THREEKIT_PARAMS = {
+  threekitUrl: "https://preview.threekit.com/",
+  authToken: "17862278-d8a2-4522-a7c2-53943e097393",
+  assetId: "ed10ae9e-aa26-437a-bb0f-61e09430c89e",
+};
+
 function App() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -25,7 +31,7 @@ function App() {
   useEffect(() => {
     axios({
       method: "get",
-      url: `https://preview.threekit.com/api/v2/assets/${product}?bearer_token=17862278-d8a2-4522-a7c2-53943e097393`,
+      url: `https://preview.threekit.com/api/v2/assets/${product}?bearer_token=${THREEKIT_PARAMS.authToken}`,
     }).then(function (response) {
       document.title = response.data.name;
     });
