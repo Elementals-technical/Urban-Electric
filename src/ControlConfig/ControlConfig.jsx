@@ -17,7 +17,7 @@ export const ControlConfig = () => {
         ...Object.fromEntries(new URLSearchParams(location.search)),
         mode: "webgl",
       })}`;
-      setMode("Webgl")
+      setMode("Webgl");
     }
   };
 
@@ -27,7 +27,7 @@ export const ControlConfig = () => {
       params.delete("mode");
       window.location.href = `${location.pathname}?${params}`;
     }
-    setMode("Vray")
+    setMode("Vray");
   };
 
   const onSelectedCamera = async (number) => {
@@ -39,6 +39,49 @@ export const ControlConfig = () => {
   };
 
   useEffect(() => {}, []);
+
+  function downloadBase64File(base64Data, filename) {
+    // Виділяємо тип даних з base64 строки
+    const dataType = base64Data.match(/^data:(.*);base64,/)[1];
+    // Перетворюємо base64 строку у чистий base64, видаляючи метадані
+    const base64 = base64Data.replace(/^data:.*;base64,/, "");
+    // Перетворюємо base64 у масив байт
+    const byteCharacters = atob(base64);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+      const slice = byteCharacters.slice(offset, offset + 512);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    // Створюємо Blob з масиву байт
+    const blob = new Blob(byteArrays, { type: dataType });
+    // Створюємо URL для Blob об'єкту
+    const blobUrl = URL.createObjectURL(blob);
+
+    // Створюємо тимчасове посилання для скачування
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = filename;
+    // Імітуємо клік по посиланню, щоб розпочати скачування
+    document.body.appendChild(link);
+    link.click();
+    // Видаляємо тимчасове посилання
+    document.body.removeChild(link);
+    // Звільнюємо ресурси, видаляючи створений URL
+    URL.revokeObjectURL(blobUrl);
+  }
+
+  // Припустимо, test містить base64 зображення, отримане асинхронно
+  async function handleSnapshot() {
+    let test = await window.player.snapshotAsync();
+    downloadBase64File(test, `${document.title}.png`);
+  }
 
   return (
     <div className={s.wrapConf}>
@@ -82,6 +125,9 @@ export const ControlConfig = () => {
             );
           })}
         </div>
+      </div>
+      <div className={s.wrap}>
+        <button onClick={() => handleSnapshot()}>Download Render</button>
       </div>
     </div>
   );
