@@ -19,7 +19,7 @@ const router = createBrowserRouter([
 
 export const THREEKIT_PARAMS = {
   threekitUrl: "https://preview.threekit.com/",
-  authToken: "17862278-d8a2-4522-a7c2-53943e097393",
+  authToken: "77bb8a68-5c54-475f-8b77-0b88d0688ea4",
   assetId: "ed10ae9e-aa26-437a-bb0f-61e09430c89e",
 };
 
