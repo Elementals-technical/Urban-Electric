@@ -21,12 +21,13 @@
   cursor: pointer;
 }
 .active {
-  background: #dcdcdc !important; 
+  background: #dcdcdc !important;
   cursor: default !important;
   pointer-events: none;
 }
 .wrapConf {
   position: absolute;
+
   right: 145px;
-  top: 310px;
+  bottom: 70px;
 }

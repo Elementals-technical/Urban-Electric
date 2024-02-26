@@ -79,7 +79,9 @@ export const ControlConfig = () => {
 
   // Припустимо, test містить base64 зображення, отримане асинхронно
   async function handleSnapshot() {
-    let test = await window.player.snapshotAsync();
+    let test = await window.player.snapshotAsync({
+      size: { width: 1024, height: 1024 },
+    });
     downloadBase64File(test, `${document.title}.png`);
   }
 
