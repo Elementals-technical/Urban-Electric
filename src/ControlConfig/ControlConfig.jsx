@@ -2,8 +2,13 @@ import { useLocation } from "react-router-dom";
 import s from "./ControlConfig.module.scss";
 
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const ControlConfig = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get("asset");
+
   const location = useLocation();
 
   const [cameraState, setStateCamera] = useState(0);
@@ -41,6 +46,7 @@ export const ControlConfig = () => {
   useEffect(() => {}, []);
 
   function downloadBase64File(base64Data, filename) {
+    window.loadImage = true;
     // Виділяємо тип даних з base64 строки
     const dataType = base64Data.match(/^data:(.*);base64,/)[1];
     // Перетворюємо base64 строку у чистий base64, видаляючи метадані
@@ -75,14 +81,60 @@ export const ControlConfig = () => {
     document.body.removeChild(link);
     // Звільнюємо ресурси, видаляючи створений URL
     URL.revokeObjectURL(blobUrl);
+    window.loadImage = false;
+  }
+
+  // Функция для скачивания изображения
+  async function downloadImageApi(product, confThreekit, title) {
+    const url = `https://ue-snapshot.3dconfiguration.com/thumbnail/${product}.jpg`;
+    window.loadImage = true;
+    try {
+      const response = await axios.post(
+        url,
+        {
+          configuration: confThreekit,
+        },
+        {
+          responseType: "arraybuffer", // Указываем, что ожидаем ответ в виде буфера
+        }
+      );
+
+      // Создаем Blob из полученного буфера данных
+      const blob = new Blob([response.data], { type: "image/jpeg" });
+
+      // Создаем URL для скачивания
+      const downloadUrl = window.URL.createObjectURL(blob);
+
+      // Создаем временную ссылку для скачивания
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", `${title}.jpg`); // Назначаем имя файла
+      document.body.appendChild(link);
+      link.click();
+
+      // Очищаем ссылку после скачивания
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(downloadUrl); // Освобождаем URL
+
+      window.loadImage = false;
+    } catch (error) {
+      console.error("Ошибка при скачивании изображения:", error);
+    }
   }
 
   // Припустимо, test містить base64 зображення, отримане асинхронно
   async function handleSnapshot() {
-    let test = await window.player.snapshotAsync({
-      size: { height: 1024  },
-    });
-    downloadBase64File(test, `${document.title}.png`);
+    const conf = await window.player.getConfigurator();
+    const confThreekit = conf.getFullConfiguration();
+
+    if (mode === "Vray") {
+      downloadImageApi(product, confThreekit, document.title);
+    } else {
+      let test = await window.player.snapshotAsync({
+        size: { height: 1024 },
+      });
+      downloadBase64File(test, `${document.title}.png`);
+    }
   }
 
   return (

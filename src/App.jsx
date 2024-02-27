@@ -4,12 +4,14 @@ import { PlayerThreeKit } from "./PlayerThreeKit/PlayerThreekit";
 import axios from "axios";
 import { ControlConfig } from "./ControlConfig/ControlConfig";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { LoaderWrap } from "./LoaderWrap/LoaderWrap";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
       <>
+        <LoaderWrap/>
         <PlayerThreeKit />
         <ControlConfig />
       </>

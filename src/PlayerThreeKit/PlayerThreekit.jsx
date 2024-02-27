@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import s from "./PlayerThreeKit.module.scss";
 import load3kit from "../utils/load3kit";
 import { THREEKIT_PARAMS } from "../App";
+import { LoaderWrap } from "../LoaderWrap/LoaderWrap";
 
 export const PlayerThreeKit = () => {
   const queryString = window.location.search;
@@ -51,11 +52,11 @@ export const PlayerThreeKit = () => {
       init3kit();
     });
   });
- 
 
   return (
     <div className={s.player_wrapper}>
       {loaded ? <div id="player" className={s.player} ref={playerEl} /> : ""}
+
     </div>
   );
 };
