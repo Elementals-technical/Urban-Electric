@@ -100,7 +100,7 @@ export const ControlConfig = () => {
       );
 
       // Создаем Blob из полученного буфера данных
-      const blob = new Blob([response.data], { type: "image/jpeg" });
+      const blob = new Blob([response.data], { type: "image/png" });
 
       // Создаем URL для скачивания
       const downloadUrl = window.URL.createObjectURL(blob);
@@ -108,7 +108,7 @@ export const ControlConfig = () => {
       // Создаем временную ссылку для скачивания
       const link = document.createElement("a");
       link.href = downloadUrl;
-      link.setAttribute("download", `${title}.jpg`); // Назначаем имя файла
+      link.setAttribute("download", `${title}.png`); // Назначаем имя файла
       document.body.appendChild(link);
       link.click();
 
