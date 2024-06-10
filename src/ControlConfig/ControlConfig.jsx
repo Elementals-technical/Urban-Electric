@@ -12,6 +12,7 @@ export const ControlConfig = () => {
   const location = useLocation();
 
   const [cameraState, setStateCamera] = useState(0);
+  const [snapshotSize, setSnapshotSize] = useState(2048);
   const [mode, setMode] = useState(
     location.search.includes("mode=webgl") ? "Webgl" : "Vray"
   );
@@ -86,7 +87,7 @@ export const ControlConfig = () => {
 
   // Функция для скачивания изображения
   async function downloadImageApi(product, confThreekit, title) {
-    const url = `https://ue-snapshot.3dconfiguration.com/thumbnail/${product}.jpg`;
+    const url = `https://ue-snapshot.3dconfiguration.com/thumbnail/${product}.jpg?size=${snapshotSize}`;
     window.loadImage = true;
     try {
       const response = await axios.post(
@@ -139,6 +140,7 @@ export const ControlConfig = () => {
 
   return (
     <div className={s.wrapConf}>
+      
       <div className={s.wrap}>
         <label className={s.label}>Type config</label>
         <div className={s.wrapButton}>
@@ -160,6 +162,27 @@ export const ControlConfig = () => {
           })}
         </div>
       </div>
+      {mode === "Vray" && (
+        <div className={s.wrap}>
+          <label className={s.label}>Render size</label>
+          <div className={s.wrapButton}>
+            {[1024, 2048].map((size) => {
+              let classB = ``;
+              if (snapshotSize === size) classB += `${s.active}`;
+
+              return (
+                <button
+                  key={size}
+                  className={classB}
+                  onClick={() => setSnapshotSize(size)}
+                >
+                  {size}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
       <div className={s.wrap}>
         <label className={s.label}>Camera Position</label>
         <div className={s.wrapButton}>
