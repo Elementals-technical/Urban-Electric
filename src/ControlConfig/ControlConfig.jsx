@@ -129,7 +129,11 @@ export const ControlConfig = () => {
     const confThreekit = conf.getFullConfiguration();
 
     if (mode === "Vray") {
-      downloadImageApi(product, confThreekit, document.title);
+      downloadImageApi(
+        product,
+        { ...confThreekit, "Camera Position v2": cameraState },
+        document.title
+      );
     } else {
       let test = await window.player.snapshotAsync({
         size: { height: 1024 },
@@ -140,7 +144,6 @@ export const ControlConfig = () => {
 
   return (
     <div className={s.wrapConf}>
-      
       <div className={s.wrap}>
         <label className={s.label}>Type config</label>
         <div className={s.wrapButton}>
