@@ -29,9 +29,9 @@ export const PlayerThreeKit = () => {
           el: playerEl.current,
           assetId: product,
           // stageId: 'f9af640a-2f8e-4617-9484-84e723e97549',
-          initialConfiguration: {
-            ['BG_on/off']: true
-          },
+          // initialConfiguration: {
+          //   ['BG_on/off']: true
+          // },
           showConfigurator: true,
           display: mode,
           publishStage: "draft",
