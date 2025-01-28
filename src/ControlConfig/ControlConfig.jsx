@@ -144,7 +144,7 @@ export const ControlConfig = () => {
 
   return (
     <div className={s.wrapConf}>
-      <div className={s.wrap}>
+      {/* <div className={s.wrap}>
         <label className={s.label}>Type config</label>
         <div className={s.wrapButton}>
           {["Webgl", "Vray"].map((type) => {
@@ -208,7 +208,7 @@ export const ControlConfig = () => {
       </div>
       <div className={s.wrap}>
         <button onClick={() => handleSnapshot()}>Download Render</button>
-      </div>
+      </div> */}
     </div>
   );
 };
