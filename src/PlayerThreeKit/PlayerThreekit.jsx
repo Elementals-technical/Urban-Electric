@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import s from "./PlayerThreeKit.module.scss";
 import load3kit from "../utils/load3kit";
 import { THREEKIT_PARAMS } from "../App";
-import { LoaderWrap } from "../LoaderWrap/LoaderWrap";
 
 export const PlayerThreeKit = () => {
   const queryString = window.location.search;
@@ -30,7 +29,7 @@ export const PlayerThreeKit = () => {
           assetId: product,
           // stageId: 'f9af640a-2f8e-4617-9484-84e723e97549',
           initialConfiguration: {
-            ['BG_on/off']: true
+            ["BG_on/off"]: true,
           },
           showConfigurator: true,
           display: mode,
@@ -58,7 +57,6 @@ export const PlayerThreeKit = () => {
   return (
     <div className={s.player_wrapper}>
       {loaded ? <div id="player" className={s.player} ref={playerEl} /> : ""}
-
     </div>
   );
 };
