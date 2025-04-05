@@ -1,26 +1,18 @@
 import { useEffect } from "react";
 import "./App.css";
-import { PlayerThreeKit } from "./PlayerThreeKit/PlayerThreekit";
 import axios from "axios";
-import { ControlConfig } from "./ControlConfig/ControlConfig";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { LoaderWrap } from "./LoaderWrap/LoaderWrap";
+import { PlayerScreen } from "./screen/PlayerScreen/PlayerScreen";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <>
-        <LoaderWrap/>
-        <PlayerThreeKit />
-        <ControlConfig />
-      </>
-    ),
+    element: <PlayerScreen />,
   },
 ]);
 
 export const THREEKIT_PARAMS = {
-  threekitUrl: "https://preview.threekit.com/", 
+  threekitUrl: "https://preview.threekit.com/",
   authToken: "eaef7621-6bf7-43d3-b8a3-cfe5afd9bc26",
   assetId: "37ccc1f5-f061-4c7b-9e15-5339214deef7",
 };

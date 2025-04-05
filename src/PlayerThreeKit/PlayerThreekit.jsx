@@ -42,7 +42,7 @@ export const PlayerThreeKit = () => {
           await window.player.when("loaded");
 
           // api.tools.removeTool('zoom');
-          // window.configurator = await api.getConfigurator();
+          window.configurator = await api.getConfigurator();
         });
     }
   };
