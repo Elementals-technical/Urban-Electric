@@ -7,7 +7,7 @@ import { ImageSelect } from "../configuration-control/ImageSelect/ImageSelect";
 
 const getComponentByType = (type, attribute) => {
   const components = {
-    Image: <ImageSelect attribute={attribute} />,
+    image: <ImageSelect attribute={attribute} />,
     material: <MaterialSelect attribute={attribute} />,
     simple: <SimpleSelect attribute={attribute} />,
   };
