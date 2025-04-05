@@ -30,7 +30,7 @@ export const ControlConfig = () => {
 
   // Перевірка: рендеримо лише, якщо плеєр завантажено
   if (!configuratorLoaded) {
-    return <div>Завантаження плеєра...</div>;
+    return <div>Loaded...</div>;
   }
 console.log('groupedData',groupedData);
 
