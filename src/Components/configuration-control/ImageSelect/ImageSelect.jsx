@@ -11,8 +11,8 @@ export const ImageSelect = ({ attribute }) => {
   const handleSelect = (assetId) => {
     setSelected(assetId);
 
-    window.player.setConfiguration({
-      [attributeSelecteThreekit.name]: { assetId },
+    window.configurator.setConfiguration({
+      [attributeSelecteThreekit.name]: { assetId, type: "item" },
     });
   };
 

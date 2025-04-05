@@ -9,7 +9,8 @@ export const SimpleSelect = ({ attribute }) => {
 
   const handleSelect = (assetId) => {
     setSelected(assetId);
-    window.player.setConfiguration({
+
+    window.configurator.setConfiguration({
       [attributeSelecteThreekit.name]: { assetId, type: "item" },
     });
   };
