@@ -1,5 +1,5 @@
 export class AttributeHelper {
-  // Отримати назву атрибута: label або name
+  // Get the name of the attribute: label or name
   static getAttributeLabel(attribute) {
     return (
       attribute?.metadata?.label ||
@@ -32,7 +32,7 @@ export class AttributeHelper {
     return url;
   }
 
-  // Отримати HEX-код кольору
+  // Get the HEX code of a color
   static getHexColor(value) {
     return value?.metadata?.hex || value?.metadata?.Hex || null;
   }

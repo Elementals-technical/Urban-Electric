@@ -1,6 +1,4 @@
 import { useMemo } from "react";
-// import { ImageSelect } from "../configuration-control/ImageSelect/ImageSelect";
-// import { MaterialSelect } from "../configuration-control/MaterialSelect/MaterialSelect";
 import { SimpleSelect } from "../configuration-control/SimpleSelect/SimpleSelect";
 import { MaterialSelect } from "../configuration-control/MaterialSelect/MaterialSelect";
 import { ImageSelect } from "../configuration-control/ImageSelect/ImageSelect";
@@ -16,8 +14,6 @@ const getComponentByType = (type, attribute) => {
 };
 
 export const AttributeRenderer = ({ attributeGroup }) => {
-  console.log("attributeGroup", attributeGroup);
-
   const type = attributeGroup?.typeComponent || "simple";
 
   const renderedComponent = useMemo(

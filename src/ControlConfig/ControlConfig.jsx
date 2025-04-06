@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import s from "./ControlConfig.module.scss";
 import { ThreekitService } from "../services/ThreekitService";
 import { SectionWrapper } from "../Components/SectionWrapper/SectionWrapper";
-import { GroupedStructureService } from "../services/groupedStructureService";
+import { GroupedStructureService } from "../services/groupedStructureService.ts";
+import { GroupedStructureValidator } from "../services/GroupedStructureValidator.ts";
 export const ControlConfig = () => {
   const [attributes, setAttributes] = useState([]);
   const [groupedData, setGroupedData] = useState([]);
@@ -24,15 +24,16 @@ export const ControlConfig = () => {
   }, []);
 
   useEffect(() => {
-    const data = GroupedStructureService.buildGroupedStructure(attributes);
+    const data = GroupedStructureService.getGroupedStructure(attributes);
     setGroupedData(data);
+
+    GroupedStructureValidator.validate(data, attributes);
   }, [attributes]);
 
   // Перевірка: рендеримо лише, якщо плеєр завантажено
   if (!configuratorLoaded) {
     return <div>Loaded...</div>;
   }
-console.log('groupedData',groupedData);
 
   return (
     <div className="p-4">

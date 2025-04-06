@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Maximize2 } from "lucide-react";
-import { AttributeHelper } from "../../../services/createAttributeHelper";
+import { AttributeHelper } from "../../../services/AttributeHelper";
 
 export const ImageGridZoom = ({ item }) => {
   const [zoomSrc, setZoomSrc] = useState(null);
@@ -18,14 +18,17 @@ export const ImageGridZoom = ({ item }) => {
             className="w-full h-full object-cover"
           />
         )}
-        <button
+        <div
           className="absolute top-2 right-2 p-1 bg-white rounded-full shadow group-hover:scale-105 transition"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setZoomSrc(imageUrl);
           }}
+          role="button"
+          tabIndex={0}
         >
           <Maximize2 size={16} />
-        </button>
+        </div>
       </div>
 
       <Dialog

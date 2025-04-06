@@ -1,48 +1,36 @@
-import { useEffect, useState } from "react";
-import { AttributeHelper } from "../../../services/createAttributeHelper";
-import { ImageGridZoom } from "../ImageGridZoom/ImageGridZoom";
+import { AttributeHelper } from "../../../services/AttributeHelper";
+import { ThreekitService } from "../../../services/ThreekitService";
+import { UIDataService } from "../../../services/UIDataService";
+import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
+import { useState } from "react";
 
 export const ImageSelect = ({ attribute }) => {
-  const [attributeSelecteThreekit, setAttributeSelecteThreekit] =
-    useState(undefined);
-
+  const {
+    attribute: attributeThreekit,
+    loading,
+    error,
+  } = useThreekitAttribute(attribute.optionName);
   const [selected, setSelected] = useState(attribute.value?.assetId);
 
   const handleSelect = (assetId) => {
     setSelected(assetId);
-
-    window.configurator.setConfiguration({
-      [attributeSelecteThreekit.name]: { assetId, type: "item" },
+    ThreekitService.setThreekitConfiguration({
+      [attributeThreekit.name]: { assetId, type: "item" },
     });
   };
 
-  const { optionName } = attribute;
-
-  useEffect(() => {
-    let initAttribute = async () => {
-      const conf = await window.player.getConfigurator();
-
-      let attributeThreekit = conf
-        .getDisplayAttributes()
-        .find((attr) => attr.name === optionName);
-
-      setAttributeSelecteThreekit(attributeThreekit);
-
-      setSelected(attributeThreekit.value?.assetId);
-    };
-
-    initAttribute();
-  }, []);
-
-  if (!attributeSelecteThreekit) return <>ImageSelect ...</>;
+  if (loading) return <>Download...</>;
+  if (error || !attributeThreekit)
+    return <>ImageSelect: Attribute loading error</>;
 
   return (
     <div>
       <p className="font-medium mb-2">
-        {AttributeHelper.getAttributeLabel(attributeSelecteThreekit)}
+        {AttributeHelper.getAttributeLabel(attributeThreekit)}
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        {attributeSelecteThreekit.values.map((val) => {
+        {attributeThreekit.values.map((val) => {
+          const label = AttributeHelper.getValueLabel(val);
           return (
             <button
               key={val.assetId}
@@ -54,16 +42,11 @@ export const ImageSelect = ({ attribute }) => {
               }`}
             >
               <img
-                src={
-                  AttributeHelper.getThumbnail(val) ||
-                  "https://via.placeholder.com/60"
-                }
-                alt={val.metadata?.label || val.label || val.name}
+                src={UIDataService.getThumbnailImage(val)}
+                alt={label}
                 className="h-12 w-12 object-contain mb-1"
               />
-              <span className="text-sm text-center">
-                {AttributeHelper.getValueLabel(val)}
-              </span>
+              <span className="text-sm text-center">{label}</span>
             </button>
           );
         })}

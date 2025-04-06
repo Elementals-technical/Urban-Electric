@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Maximize2 } from "lucide-react";
-import { AttributeHelper } from "../../../services/createAttributeHelper";
+import { AttributeHelper } from "../../../services/AttributeHelper";
 
 export const HexGridZoom = ({ item }) => {
   const [zoomSrc, setZoomSrc] = useState(null);
@@ -16,14 +16,17 @@ export const HexGridZoom = ({ item }) => {
         className="relative w-full h-full  aspect-video rounded overflow-hidden border shadow-sm group cursor-pointer"
         style={{ backgroundColor: hexColor || defaultHex }}
       >
-        <button
+        <div
           className="absolute top-2 right-2 p-1 bg-white rounded-full shadow group-hover:scale-105 transition"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setZoomSrc(hexColor || defaultHex);
           }}
+          role="button"
+          tabIndex={0}
         >
           <Maximize2 size={16} />
-        </button>
+        </div>
       </div>
       <Dialog
         open={!!zoomSrc}

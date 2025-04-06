@@ -1,3 +1,6 @@
+type valueConfig = any;
+type Configuration = Record<string, valueConfig>;
+
 export class ThreekitService {
   /**
    * Очікує поки буде доступна функція window.player.getConfigurator та повертає результат.
@@ -16,5 +19,17 @@ export class ThreekitService {
       };
       checkConfigurator();
     });
+  }
+
+  static async getAttribute(optionName: string) {
+    const configurator = await this.loadConfigurator();
+    return configurator
+      .getDisplayAttributes()
+      .find((attr) => attr.name === optionName);
+  }
+
+  static setThreekitConfiguration(configuration: Configuration) {
+    //@ts-ignore
+    return window.configurator.setConfiguration(configuration);
   }
 }

@@ -1,49 +1,39 @@
-import { useEffect, useState } from "react";
-import { AttributeHelper } from "../../../services/createAttributeHelper";
+import { useState } from "react";
+import { AttributeHelper } from "../../../services/AttributeHelper";
+import { ThreekitService } from "../../../services/ThreekitService";
+import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
 
 export const SimpleSelect = ({ attribute }) => {
-  const [attributeSelecteThreekit, setAttributeSelecteThreekit] =
-    useState(undefined);
+  const {
+    attribute: attributeThreekit,
+    loading,
+    error,
+  } = useThreekitAttribute(attribute.optionName);
 
   const [selected, setSelected] = useState(undefined);
 
   const handleSelect = (assetId) => {
     setSelected(assetId);
 
-    window.configurator.setConfiguration({
-      [attributeSelecteThreekit.name]: { assetId, type: "item" },
+    ThreekitService.setThreekitConfiguration({
+      [attributeThreekit.name]: { assetId, type: "item" },
     });
   };
 
-  const { optionName } = attribute;
+  if (loading) return <>Download...</>;
+  if (error || !attributeThreekit)
+    return <>SimpleSelect: Attribute loading error</>;
 
-  useEffect(() => {
-    let initAttribute = async () => {
-      const conf = await window.player.getConfigurator();
-
-      let attributeThreekit = conf
-        .getDisplayAttributes()
-        .find((attr) => attr.name === optionName);
-
-      setAttributeSelecteThreekit(attributeThreekit);
-
-      setSelected(attributeThreekit.value?.assetId);
-    };
-
-    initAttribute();
-  }, []);
-
-  if (!attributeSelecteThreekit) return <>1</>;
   return (
     <div>
       <p className="font-medium mb-2">
-        {attributeSelecteThreekit &&
-          AttributeHelper.getAttributeLabel(attributeSelecteThreekit)}
+        {attributeThreekit &&
+          AttributeHelper.getAttributeLabel(attributeThreekit)}
         :
       </p>
       <div className="flex flex-wrap gap-2">
-        {attributeSelecteThreekit &&
-          attributeSelecteThreekit.values.map((val) => {
+        {attributeThreekit &&
+          attributeThreekit.values.map((val) => {
             return (
               <button
                 key={val.assetId}
