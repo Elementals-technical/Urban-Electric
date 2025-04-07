@@ -16,6 +16,8 @@ export const ImageSelect = ({ attribute }) => {
     setSelected(assetId);
     ThreekitService.setThreekitConfiguration({
       [attributeThreekit.name]: { assetId, type: "item" },
+    }).then(() => {
+      // debugger
     });
   };
 

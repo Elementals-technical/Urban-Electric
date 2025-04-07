@@ -17,6 +17,14 @@ export const SimpleSelect = ({ attribute }) => {
 
     ThreekitService.setThreekitConfiguration({
       [attributeThreekit.name]: { assetId, type: "item" },
+    }).then(async () => {
+      const attr = await ThreekitService.getAttribute("UI_Model");
+
+      if (attr.values.length > 0) {
+        ThreekitService.setThreekitConfiguration({
+          ["UI_Model"]: { assetId: attr.values[0].assetId },
+        });
+      }
     });
   };
 
