@@ -2,7 +2,7 @@ import { AttributeHelper } from "../../../services/AttributeHelper";
 import { ThreekitService } from "../../../services/ThreekitService";
 import { UIDataService } from "../../../services/UIDataService";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const ImageSelect = ({ attribute }) => {
   const {
@@ -20,6 +20,12 @@ export const ImageSelect = ({ attribute }) => {
       // debugger
     });
   };
+
+  useEffect(() => {
+    if (!loading) {
+      setSelected(attributeThreekit.value.assetId);
+    }
+  }, [loading]);
 
   if (loading) return <>Download...</>;
   if (error || !attributeThreekit)

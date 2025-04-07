@@ -3,7 +3,7 @@ import { ImageGridZoom } from "../ImageGridZoom/ImageGridZoom";
 import { HexGridZoom } from "../HexGridZoom/HexGridZoom";
 import { ThreekitService } from "../../../services/ThreekitService";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const MaterialSelect = ({ attribute }) => {
   const {
@@ -23,6 +23,11 @@ export const MaterialSelect = ({ attribute }) => {
     });
   };
 
+  useEffect(() => {
+    if (!loading) {
+      setSelected(attributeThreekit.value.assetId);
+    }
+  }, [loading]);
   if (loading) return <>Download...</>;
   if (error || !attributeThreekit)
     return <>MaterialSelect: Attribute loading error</>;

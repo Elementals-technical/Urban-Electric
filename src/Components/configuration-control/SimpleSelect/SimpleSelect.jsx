@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AttributeHelper } from "../../../services/AttributeHelper";
 import { ThreekitService } from "../../../services/ThreekitService";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
@@ -11,7 +11,7 @@ export const SimpleSelect = ({ attribute }) => {
   } = useThreekitAttribute(attribute.optionName);
 
   const [selected, setSelected] = useState(undefined);
-
+  debugger;
   const handleSelect = (assetId) => {
     setSelected(assetId);
 
@@ -27,6 +27,12 @@ export const SimpleSelect = ({ attribute }) => {
       }
     });
   };
+
+  useEffect(() => {
+    if (!loading) {
+      setSelected(attributeThreekit.value.assetId);
+    }
+  }, [loading]);
 
   if (loading) return <>Download...</>;
   if (error || !attributeThreekit)
