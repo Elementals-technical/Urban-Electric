@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import s from "./PlayerThreeKit.module.scss";
 import load3kit from "../utils/load3kit";
 import { THREEKIT_PARAMS } from "../App";
+import { rotationScript } from "../cusmtomToolsThreekit/customRotation";
 
 export const PlayerThreeKit = () => {
   const queryString = window.location.search;
@@ -40,6 +41,10 @@ export const PlayerThreeKit = () => {
           window.player = api;
           await api.when("preloaded");
           await window.player.when("loaded");
+
+          // let advancedPlayer = api.enableApi("player");
+          // advancedPlayer.tools.removeTool("zoom");
+          rotationScript(api);
 
           // api.tools.removeTool('zoom');
           window.configurator = await api.getConfigurator();
