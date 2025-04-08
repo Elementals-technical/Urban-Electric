@@ -1,42 +1,37 @@
 import { useEffect, useState } from "react";
 import { AttributeHelper } from "../../../services/AttributeHelper";
 import { ThreekitService } from "../../../services/ThreekitService";
-import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
+// import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
+import { useStoreDispatch, useStoreSelector } from "../../../main";
+import { getAttributeByName } from "../../../redux/features/configurator/configurator.selector";
+import { setActiveAttributes } from "../../../redux/features/configurator/configuratorSlice";
 
 export const SimpleSelect = ({ attribute }) => {
-  const {
-    attribute: attributeThreekit,
-    loading,
-    error,
-  } = useThreekitAttribute(attribute.optionName);
+  let attributeThreekit = useStoreSelector(
+    getAttributeByName(attribute.optionName)
+  );
 
+  const dispatch = useStoreDispatch(setActiveAttributes);
   const [selected, setSelected] = useState(undefined);
-  debugger;
+  // debugger;
   const handleSelect = (assetId) => {
     setSelected(assetId);
 
-    ThreekitService.setThreekitConfiguration({
-      [attributeThreekit.name]: { assetId, type: "item" },
-    }).then(async () => {
-      const attr = await ThreekitService.getAttribute("UI_Model");
-
-      if (attr.values.length > 0) {
-        ThreekitService.setThreekitConfiguration({
-          ["UI_Model"]: { assetId: attr.values[0].assetId },
-        });
-      }
-    });
+    dispatch(
+      setActiveAttributes({
+        name: attributeThreekit.name,
+        value: { assetId, type: "item" },
+      })
+    );
   };
 
   useEffect(() => {
-    if (!loading) {
+    if (attributeThreekit) {
       setSelected(attributeThreekit.value.assetId);
     }
-  }, [loading]);
+  }, [attributeThreekit]);
 
-  if (loading) return <>Download...</>;
-  if (error || !attributeThreekit)
-    return <>SimpleSelect: Attribute loading error</>;
+  if (!attributeThreekit) return <></>;
 
   return (
     <div>

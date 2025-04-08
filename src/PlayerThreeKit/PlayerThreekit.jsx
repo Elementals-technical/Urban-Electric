@@ -4,6 +4,9 @@ import s from "./PlayerThreeKit.module.scss";
 import load3kit from "../utils/load3kit";
 import { THREEKIT_PARAMS } from "../App";
 import { rotationScript } from "../cusmtomToolsThreekit/customRotation";
+import { useStoreDispatch } from "../main";
+import { setListAttributes } from "../redux/features/configurator/configuratorSlice";
+import { ThreekitService } from "../services/ThreekitService";
 
 export const PlayerThreeKit = () => {
   const queryString = window.location.search;
@@ -13,6 +16,7 @@ export const PlayerThreeKit = () => {
   if (urlParams.get("mode") == "webgl") {
     mode = "webgl";
   }
+  const dispatch = useStoreDispatch();
 
   const [loaded, setLoaded] = useState(false);
   const [initializing, setInitializing] = useState(false);
@@ -45,6 +49,11 @@ export const PlayerThreeKit = () => {
           // let advancedPlayer = api.enableApi("player");
           // advancedPlayer.tools.removeTool("zoom");
           rotationScript(api);
+
+          const configurator = await ThreekitService.loadConfigurator();
+          const attributeThreekit = configurator.getDisplayAttributes();
+
+          dispatch(setListAttributes(attributeThreekit));
 
           // api.tools.removeTool('zoom');
           window.configurator = await api.getConfigurator();

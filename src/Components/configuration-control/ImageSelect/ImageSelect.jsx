@@ -23,6 +23,7 @@ export const ImageSelect = ({ attribute }) => {
 
   useEffect(() => {
     if (!loading) {
+      // debugger
       setSelected(attributeThreekit.value.assetId);
     }
   }, [loading]);
