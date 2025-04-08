@@ -45,6 +45,11 @@ export const PlayerThreeKit = () => {
           window.player = api;
           await api.when("preloaded");
           await window.player.when("loaded");
+          window.configurator = await api.getConfigurator();
+
+          window.configurator.setConfiguration({ start_script: false });
+
+          window.configurator.setConfiguration({ start_script: true });
 
           // let advancedPlayer = api.enableApi("player");
           // advancedPlayer.tools.removeTool("zoom");
@@ -56,7 +61,6 @@ export const PlayerThreeKit = () => {
           dispatch(setListAttributes(attributeThreekit));
 
           // api.tools.removeTool('zoom');
-          window.configurator = await api.getConfigurator();
         });
     }
   };
