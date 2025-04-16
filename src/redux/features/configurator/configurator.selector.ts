@@ -19,12 +19,32 @@ import { isConfigurationAsset } from "./configuratorFunctions";
 // export const getDefaultConfiguration = (state: RootState) => state.configurator.defaultConfiguration;
 export const getListAttributes = (state: RootState) =>
   state.configurator.listAttributes;
+export const getStageCamera = (state: RootState) => {
+  debugger;
+  return state.configurator.stageCamera;
+};
 export const getAttributeByName =
   (optionName: string) => (state: RootState) => {
     let listAttributes = getListAttributes(state);
 
     return listAttributes.find((attr) => attr.name === optionName);
-  }; // export const getActiveAttributes = (state: RootState) => state.configurator.activeAttributes;
+  };
+
+export const getSelectedAttributes = (state: RootState) => {
+  let listAttributes = getListAttributes(state);
+
+  if (listAttributes.length < 1) return [];
+
+  const objConfig = {};
+
+  listAttributes.forEach((attr) => {
+    objConfig[attr.name] = attr.value;
+  });
+
+  return objConfig;
+};
+
+// export const getActiveAttributes = (state: RootState) => state.configurator.activeAttributes;
 // export const getActiveAttributesSupport = (state: RootState) => state.configurator.activeAttributesSupport;
 // export const getCameraData = (state: RootState) => state.configurator.camera;
 // export const getIsLoadingConfiguration = (state: RootState) => state.configurator.isLoadingConfiguration;

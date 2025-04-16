@@ -8,6 +8,7 @@ import {
 const initialState: ConfiguratorState = {
   isLoadingConfiguration: false,
   defaultConfiguration: null,
+  stageCamera: 4,
   listAttributes: [],
   selectedAttributes: [],
 };
@@ -25,6 +26,9 @@ export const reducerSlice = createSlice({
         state.defaultConfiguration = action.payload;
       }
     },
+    setStageCamera: (state: ConfiguratorState, action: PayloadAction<any>) => {
+      state.stageCamera = action.payload;
+    },
     setListAttributes: (
       state: ConfiguratorState,
       action: PayloadAction<IAttributeAsset[]>
@@ -40,6 +44,7 @@ export const reducerSlice = createSlice({
 });
 
 export const {
+  setStageCamera,
   setIsLoadingConfiguration,
   setDefaultConfiguration,
   setListAttributes,

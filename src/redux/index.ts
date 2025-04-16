@@ -15,7 +15,6 @@ const loggerMiddleware = (storeAPI: any) => (next: any) => (action: any) => {
     action.payload.value
   ) {
     let functionsetData = async () => {
-      debugger;
       storeAPI.dispatch(setIsLoadingConfiguration(true));
 
       await window.configurator.setConfiguration({
@@ -37,6 +36,20 @@ const loggerMiddleware = (storeAPI: any) => (next: any) => (action: any) => {
       const attributeThreekit = await configurator.getDisplayAttributes();
 
       storeAPI.dispatch(setListAttributes(attributeThreekit));
+      storeAPI.dispatch(setIsLoadingConfiguration(false));
+    };
+    functionsetData();
+  }
+  debugger;
+  if (action.type === "configurator/setStageCamera" && action.payload) {
+    debugger;
+    let functionsetData = async () => {
+      storeAPI.dispatch(setIsLoadingConfiguration(true));
+
+      await window.stageConfigurator.setConfiguration({
+        Camera: action.payload,
+      });
+
       storeAPI.dispatch(setIsLoadingConfiguration(false));
     };
     functionsetData();

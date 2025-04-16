@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { AttributeHelper } from "../../../services/AttributeHelper";
-import { ThreekitService } from "../../../services/ThreekitService";
-// import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
 import { useStoreDispatch, useStoreSelector } from "../../../main";
 import { getAttributeByName } from "../../../redux/features/configurator/configurator.selector";
 import { setActiveAttributes } from "../../../redux/features/configurator/configuratorSlice";
@@ -11,9 +9,9 @@ export const SimpleSelect = ({ attribute }) => {
     getAttributeByName(attribute.optionName)
   );
 
-  const dispatch = useStoreDispatch(setActiveAttributes);
   const [selected, setSelected] = useState(undefined);
-  // debugger;
+
+  const dispatch = useStoreDispatch();
   const handleSelect = (assetId) => {
     setSelected(assetId);
 

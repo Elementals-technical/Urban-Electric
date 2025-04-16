@@ -46,6 +46,7 @@ export const PlayerThreeKit = () => {
           await api.when("preloaded");
           await window.player.when("loaded");
           window.configurator = await api.getConfigurator();
+          window.stageConfigurator = await api.getStageConfigurator();
 
           window.configurator.setConfiguration({ start_script: false });
 

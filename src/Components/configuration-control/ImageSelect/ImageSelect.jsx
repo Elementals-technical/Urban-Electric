@@ -3,6 +3,8 @@ import { ThreekitService } from "../../../services/ThreekitService";
 import { UIDataService } from "../../../services/UIDataService";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
 import { useEffect, useState } from "react";
+import { setActiveAttributes } from "../../../redux/features/configurator/configuratorSlice";
+import { useStoreDispatch } from "../../../main";
 
 export const ImageSelect = ({ attribute }) => {
   const {
@@ -12,18 +14,20 @@ export const ImageSelect = ({ attribute }) => {
   } = useThreekitAttribute(attribute.optionName);
   const [selected, setSelected] = useState(attribute.value?.assetId);
 
+  const dispatch = useStoreDispatch();
   const handleSelect = (assetId) => {
     setSelected(assetId);
-    ThreekitService.setThreekitConfiguration({
-      [attributeThreekit.name]: { assetId, type: "item" },
-    }).then(() => {
-      // debugger
-    });
+
+    dispatch(
+      setActiveAttributes({
+        name: attributeThreekit.name,
+        value: { assetId, type: "item" },
+      })
+    );
   };
 
   useEffect(() => {
     if (!loading) {
-      // debugger
       setSelected(attributeThreekit.value.assetId);
     }
   }, [loading]);

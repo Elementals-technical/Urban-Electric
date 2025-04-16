@@ -1,9 +1,10 @@
 import { AttributeHelper } from "../../../services/AttributeHelper";
 import { ImageGridZoom } from "../ImageGridZoom/ImageGridZoom";
 import { HexGridZoom } from "../HexGridZoom/HexGridZoom";
-import { ThreekitService } from "../../../services/ThreekitService";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
 import { useEffect, useState } from "react";
+import { useStoreDispatch } from "../../../main";
+import { setActiveAttributes } from "../../../redux/features/configurator/configuratorSlice";
 
 export const MaterialSelect = ({ attribute }) => {
   const {
@@ -12,15 +13,21 @@ export const MaterialSelect = ({ attribute }) => {
     error,
   } = useThreekitAttribute(attribute.optionName);
 
+  const dispatch = useStoreDispatch();
+
   const [filters, setFilters] = useState({ Finish: "", Color: "" });
   const [sortBy, setSortBy] = useState("");
   const [selected, setSelected] = useState(attribute.value?.assetId);
 
   const handleSelect = (assetId) => {
     setSelected(assetId);
-    ThreekitService.setThreekitConfiguration({
-      [attributeThreekit.name]: { assetId, type: "item" },
-    });
+
+    dispatch(
+      setActiveAttributes({
+        name: attributeThreekit.name,
+        value: { assetId, type: "item" },
+      })
+    );
   };
 
   useEffect(() => {

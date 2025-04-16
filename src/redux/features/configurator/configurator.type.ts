@@ -61,6 +61,7 @@ export interface CameraI {
 export interface ConfiguratorState {
   isLoadingConfiguration: boolean;
   defaultConfiguration: null | IConfiguration;
+  stageCamera: number;
   listAttributes: IAttributeAsset[];
   selectedAttributes: { assetId: string; name: string }[];
 }

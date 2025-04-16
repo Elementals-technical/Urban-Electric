@@ -1,3 +1,6 @@
+import { store } from "../redux";
+import { setStageCamera } from "../redux/features/configurator/configuratorSlice";
+
 export async function rotationScript(api) {
   // Ініціалізація API та stageConfigurator
   let advancedPlayer = api.enableApi("player");
@@ -16,6 +19,7 @@ export async function rotationScript(api) {
 
   // Функція оновлення кута камери через stageConfigurator
   function updateCameraAngle(angle) {
+    store.dispatch(setStageCamera(angle));
     stageConfigurator.setConfiguration({
       Camera: angle,
     });
@@ -66,5 +70,3 @@ export async function rotationScript(api) {
 
   advancedPlayer.tools.addTool(toolConfig);
 }
-
-
