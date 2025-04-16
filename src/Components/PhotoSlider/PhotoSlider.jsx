@@ -9,6 +9,13 @@ import s from "./PhotoSlider.module.scss";
 import { setStageCamera } from "../../redux/features/configurator/configuratorSlice";
 
 export const PhotoSlider = () => {
+
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const product = urlParams.get("asset");
+
+
   let listSelectedAttribute = useStoreSelector(getSelectedAttributes);
   let stageCamera = useStoreSelector(getStageCamera);
 
@@ -49,7 +56,7 @@ export const PhotoSlider = () => {
       {cameraNumbers.map((camera) => {
         // Для кожного номера камери створюємо генератор URL з оновленою конфігурацією
         const generator = new ThreekitURLGenerator({
-          assetId: "9a36b6c6-7376-4d75-a2ca-4b853bf10124",
+          assetId: product,
           orgId: "12a6bfdf-aa5f-48e7-97ff-172e9c5775d8",
           stageId: "592a5a16-b3f4-481f-a65f-ac4138f38fa0",
           bearer_token: "0b66f870-d3d5-4e41-b5f4-0862133df6a0",
