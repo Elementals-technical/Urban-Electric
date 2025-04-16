@@ -20,7 +20,6 @@ import { isConfigurationAsset } from "./configuratorFunctions";
 export const getListAttributes = (state: RootState) =>
   state.configurator.listAttributes;
 export const getStageCamera = (state: RootState) => {
-  debugger;
   return state.configurator.stageCamera;
 };
 export const getAttributeByName =

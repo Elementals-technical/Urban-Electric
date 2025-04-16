@@ -40,9 +40,8 @@ const loggerMiddleware = (storeAPI: any) => (next: any) => (action: any) => {
     };
     functionsetData();
   }
-  debugger;
+
   if (action.type === "configurator/setStageCamera" && action.payload) {
-    debugger;
     let functionsetData = async () => {
       storeAPI.dispatch(setIsLoadingConfiguration(true));
 
