@@ -4,14 +4,15 @@ import { UIDataService } from "../../../services/UIDataService";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
 import { useEffect, useState } from "react";
 import { setActiveAttributes } from "../../../redux/features/configurator/configuratorSlice";
-import { useStoreDispatch } from "../../../main";
+import { useStoreDispatch, useStoreSelector } from "../../../main";
+import { getAttributeByName } from "../../../redux/features/configurator/configurator.selector";
 
 export const ImageSelect = ({ attribute }) => {
-  const {
-    attribute: attributeThreekit,
-    loading,
-    error,
-  } = useThreekitAttribute(attribute.optionName);
+  const { loading, error } = useThreekitAttribute(attribute.optionName);
+
+  let attributeThreekit = useStoreSelector(
+    getAttributeByName(attribute.optionName)
+  );
   const [selected, setSelected] = useState(attribute.value?.assetId);
 
   const dispatch = useStoreDispatch();
@@ -27,10 +28,10 @@ export const ImageSelect = ({ attribute }) => {
   };
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && attributeThreekit) {
       setSelected(attributeThreekit.value.assetId);
     }
-  }, [loading]);
+  }, [loading, attributeThreekit]);
 
   if (loading) return <>Download...</>;
   if (error || !attributeThreekit)

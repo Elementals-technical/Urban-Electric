@@ -3,15 +3,16 @@ import { ImageGridZoom } from "../ImageGridZoom/ImageGridZoom";
 import { HexGridZoom } from "../HexGridZoom/HexGridZoom";
 import { useThreekitAttribute } from "../../../hook/useThreekitAttribute";
 import { useEffect, useState } from "react";
-import { useStoreDispatch } from "../../../main";
+import { useStoreDispatch, useStoreSelector } from "../../../main";
 import { setActiveAttributes } from "../../../redux/features/configurator/configuratorSlice";
+import { getAttributeByName } from "../../../redux/features/configurator/configurator.selector";
 
 export const MaterialSelect = ({ attribute }) => {
-  const {
-    attribute: attributeThreekit,
-    loading,
-    error,
-  } = useThreekitAttribute(attribute.optionName);
+  let attributeThreekit = useStoreSelector(
+    getAttributeByName(attribute.optionName)
+  );
+
+  const { loading, error } = useThreekitAttribute(attribute.optionName);
 
   const dispatch = useStoreDispatch();
 
@@ -31,13 +32,13 @@ export const MaterialSelect = ({ attribute }) => {
   };
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && attributeThreekit) {
       setSelected(attributeThreekit.value.assetId);
     }
-  }, [loading]);
+  }, [loading, attributeThreekit]);
   if (loading) return <>Download...</>;
-  if (error || !attributeThreekit)
-    return <>MaterialSelect: Attribute loading error</>;
+  if (error) return <>MaterialSelect: Attribute loading error</>;
+  if (!attributeThreekit) return <></>;
 
   // Фільтрація та сортування
   const filteredItems = attributeThreekit.values.filter((item) => {
