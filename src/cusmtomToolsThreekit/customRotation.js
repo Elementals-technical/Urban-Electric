@@ -1,4 +1,5 @@
 import { store } from "../redux";
+import { getStageCamera } from "../redux/features/configurator/configurator.selector";
 import { setStageCamera } from "../redux/features/configurator/configuratorSlice";
 
 export async function rotationScript(api) {
@@ -20,11 +21,12 @@ export async function rotationScript(api) {
   // Функція оновлення кута камери через stageConfigurator
   function updateCameraAngle(angle) {
     store.dispatch(setStageCamera(angle));
+
     stageConfigurator.setConfiguration({
       Camera: angle,
     });
   }
-
+ 
   // Визначення допустимого діапазону стартової позиції
 
   let currentAngle = stageConfigurator.getConfiguration()["Camera"];
@@ -37,6 +39,11 @@ export async function rotationScript(api) {
 
     handlers: {
       mousedown: function (ev) {
+        const storeState = store.getState();
+
+        const stageCamera = getStageCamera(storeState);
+        if ([8, 9, 10].includes(stageCamera)) return;
+
         isDragging = true;
         // Скидаємо лічильник для сесії
         counter = 0;
