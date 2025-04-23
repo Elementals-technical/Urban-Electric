@@ -7,15 +7,13 @@ import { rotationScript } from "../cusmtomToolsThreekit/customRotation";
 import { useStoreDispatch } from "../main";
 import { setListAttributes } from "../redux/features/configurator/configuratorSlice";
 import { ThreekitService } from "../services/ThreekitService";
+import { UrlService } from "../services/UrlService";
 
 export const PlayerThreeKit = () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get("asset");
+  const product = UrlService.getAsset();
+
   let mode = "image";
-  if (urlParams.get("mode") == "webgl") {
-    mode = "webgl";
-  }
+ 
   const dispatch = useStoreDispatch();
 
   const [loaded, setLoaded] = useState(false);

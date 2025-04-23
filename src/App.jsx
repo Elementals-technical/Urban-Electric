@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import "./App.css";
 import axios from "axios";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  HashRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { PlayerScreen } from "./screen/PlayerScreen/PlayerScreen";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <PlayerScreen />,
-  },
-]);
+import { UrlService } from "./services/UrlService";
 
 export const THREEKIT_PARAMS = {
   threekitUrl: "https://preview.threekit.com/",
@@ -18,9 +17,9 @@ export const THREEKIT_PARAMS = {
 };
 
 function App() {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get("asset");
+  const product = UrlService.getAsset();
+
+  console.log("product", product);
 
   useEffect(() => {
     axios({
@@ -30,7 +29,13 @@ function App() {
       document.title = response.data.name;
     });
   }, []);
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<PlayerScreen />} />
+      </Routes>
+    </HashRouter>
+  );
 }
 
 export default App;

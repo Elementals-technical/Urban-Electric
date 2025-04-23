@@ -2,11 +2,11 @@ import ThreekitURLGenerator from "../../services/ThreeekitURLGroup";
 
 import s from "./PhotoSlider.module.scss";
 import { ListSlider } from "./ListSlider";
+import { UrlService } from "../../services/UrlService";
 
 export const PhotoSlider = () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const product = urlParams.get("asset");
+  const product = UrlService.getAsset();
+
 
   // Обробка зміни значення слайдера
   const cameraNumbers = [4, 8, 9, 10];
